@@ -6,7 +6,7 @@ services:
     image: musicminion/e5-frontend:latest
     restart: always
     ports:
-      - "3000:80"
+      - "4200:80"
     environment:
       # 设置你服务器的后端地址
       - apiUrl : http://localhost:8080
