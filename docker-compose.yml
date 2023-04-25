@@ -7,9 +7,6 @@ services:
     restart: always
     ports:
       - "4200:80"
-    environment:
-      # 设置你服务器的后端地址
-      - apiUrl : http://localhost:8080
   e5-backend:
     image: musicminion/e5-backend:latest
     restart: always
@@ -29,7 +26,7 @@ services:
       - ./data/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: example_mysql_password
-      MYSQL_DATABASE: E5
+      MYSQL_SSL_MODE: disabled
     ports:
       - "3306:3306"
   redis:
@@ -59,4 +56,3 @@ services:
       - --reporting-disabled
       - --http-bind-address=:8086
       - --log-level=error
-      - --storage-path=/var/lib/influxdb2
