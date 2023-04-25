@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest]
-        arch: [amd64, arm64, armv7]
+        arch: [x86_64, arm64, armv7]
 
     steps:
       - name: Checkout code
@@ -45,4 +45,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.arch }}
-          platforms: ${{ matrix.arch }}
+          
