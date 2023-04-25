@@ -47,10 +47,12 @@ services:
     ports:
       - "8086:8086"
     environment:
-      - INFLUXD_INIT_MODE=setup
-      - INFLUXD_BOOTSTRAP_TOKEN=example_influxdb_token
-      - INFLUXD_ORG=E5
-      - INFLUXD_DB=e5
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=example_influxdb_password
+      - DOCKER_INFLUXDB_INIT_ORG=E5
+      - DOCKER_INFLUXDB_INIT_BUCKET=e5
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=example_influxdb_token
     command: 
       - influxd
       - --reporting-disabled
