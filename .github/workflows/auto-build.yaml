@@ -15,11 +15,6 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ubuntu-latest]
-        arch: [x86_64, arm64, armv7]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -45,4 +40,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ matrix.arch }}
-          
+          platforms: linux/amd64,linux/arm64
