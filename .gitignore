@@ -5,3 +5,4 @@
 /src/main/resources/application.properties
 /src/main/resources/application-online.properties.bak
 /src/main/resources/application.properties
+.DS_Store
