@@ -1,6 +1,11 @@
 # E5续订程序
-此项目为该网址的源代码(后端) https://e5.qyi.io/
-(前端) https://github.com/luoye663/e5-html
+此项目为该网址的源代码
+
+- (后端) https://e5.qyi.io/
+
+- (前端) https://github.com/luoye663/e5-html
+
+
 #### 使用教程
 https://qyi.io/archives/687.html
 

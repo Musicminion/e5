@@ -48,7 +48,8 @@ public class Start {
     private void distributeTask() {
         if (isdebug) {
             log.debug("Debug模式，跳过执行");
-            return;
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!");
+//            return;
         }
         ExecutorService threadPool = poolService.getThreadPool();
 
