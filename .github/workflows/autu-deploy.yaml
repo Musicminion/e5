@@ -1,16 +1,15 @@
 name: autu-deploy
 on:
   workflow_run:
-    workflows: ["auto-build"]
+    workflows: [auto-build]
     branches: [master, dev]
     types:
       - completed
 
 jobs:
-  deploy:
+  on-success:
     runs-on: ubuntu-latest
-    needs: auto-build
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
