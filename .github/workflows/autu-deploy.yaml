@@ -1,13 +1,11 @@
-name: Deploy e5 Cluster
-
+name: autu-deploy
 on:
-  workflow_run:
-    workflows: ["Build e5-backend Image"]
+  push:
     branches:
-      - main
+      - master
       - dev
-    types:
-      - completed
+needs: auto-build
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

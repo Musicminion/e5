@@ -1,4 +1,4 @@
-name: Build e5-backend Image
+name: auto-build
 
 on:
   push:
