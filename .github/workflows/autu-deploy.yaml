@@ -1,9 +1,11 @@
 name: autu-deploy
 on:
-  push:
-    branches:
-      - master
-      - dev
+  workflow_run:
+    workflows: ["auto-build"]
+    branches: [master, dev]
+    types:
+      - completed
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
