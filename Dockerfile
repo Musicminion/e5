@@ -9,7 +9,7 @@ RUN ls
 RUN mvn clean package -DskipTests
 
 # # 使用 Java 17 的镜像作为基础镜像 
-FROM docker.io/library/openjdk:17-jdk
+FROM docker.io/library/openjdk:17-oracle
 # 将 JAR 文件复制到容器中 
 COPY --from=build /app/target/*.jar e5-backend.jar
 # 暴露 Spring Boot 应用程序使用的端口 EXPOSE 8080 
