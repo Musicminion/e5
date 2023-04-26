@@ -247,7 +247,10 @@ public class OutlookServiceImpl extends ServiceImpl<OutlookMapper, Outlook> impl
             }
         }
         logger.debug("邮件列表请求成功!" + s);
-        int mail_count = getMailBody(5, s, outlook.getAccessToken());
+        // 随机产生一个1-10之间的数字
+        int getMailNum = (int) (Math.random() * 10 + 1); 
+
+        int mail_count = getMailBody(getMailNum, s, outlook.getAccessToken());
         logger.debug("读取邮件数量: {}", mail_count);
 
         return mail_count;
