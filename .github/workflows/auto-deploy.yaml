@@ -1,4 +1,4 @@
-name: autu-deploy
+name: auto-deploy
 on:
   workflow_run:
     workflows: [auto-build]
