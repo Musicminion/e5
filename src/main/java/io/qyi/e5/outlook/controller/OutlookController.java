@@ -131,6 +131,15 @@ public class OutlookController {
         outlooklist.forEach(outlook -> {
             OutlookListVo v = new OutlookListVo();
             BeanUtils.copyProperties(outlook, v);
+            String secret = v.getClientSecret();
+            // 把密钥的前 5 位和后 5 位显示出来
+            if (secret.length() < 5) {
+                v.setClientSecret("********");
+            }
+            else{
+                String respSecret = secret.substring(0, 5) + "********" + secret.substring(secret.length() - 5);
+                v.setClientSecret(respSecret);
+            }
             vo.add(v);
         });
         return ResultUtil.success(vo);
