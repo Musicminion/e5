@@ -132,6 +132,11 @@ public class OutlookController {
             OutlookListVo v = new OutlookListVo();
             BeanUtils.copyProperties(outlook, v);
             String secret = v.getClientSecret();
+            // 刚创建好的时候，密钥是 null，所以要判断一下
+            if (secret == null) {
+                vo.add(v);
+                continue;
+            }
             // 把密钥的前 5 位和后 5 位显示出来
             if (secret.length() < 5) {
                 v.setClientSecret("********");
