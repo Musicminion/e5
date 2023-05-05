@@ -1,9 +1,11 @@
 package io.qyi.e5.outlook_log.service.impl;
 
+
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.QueryApi;
 import com.influxdb.client.WriteApi;
 import com.influxdb.client.domain.WritePrecision;
+import com.influxdb.client.FluxTable;
 import io.qyi.e5.outlook_log.entity.OutlookLog;
 import io.qyi.e5.outlook_log.service.IOutlookLogService;
 import org.springframework.beans.factory.annotation.Value;
@@ -97,7 +99,7 @@ public class OutlookLogServiceImpl implements IOutlookLogService {
                 "|> count()";
         QueryApi queryApi = influxDBClient.getQueryApi();
 
-        List<Table> tables = queryApi.query(countFlux, org);
+        List<FluxTable> tables = queryApi.query(countFlux, org);
         long count = (long) tables.get(0).getRecords().get(0).getValueByKey("_value");
     
         // 计算总页数

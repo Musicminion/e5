@@ -6,6 +6,7 @@ import io.qyi.e5.bean.result.Result;
 import io.qyi.e5.config.security.UsernamePasswordAuthenticationToken;
 import io.qyi.e5.outlook.service.IOutlookService;
 import io.qyi.e5.outlook_log.entity.OutlookLog;
+import io.qyi.e5.outlook_log.entity.OutlookLogPage;
 import io.qyi.e5.outlook_log.service.IOutlookLogService;
 import io.qyi.e5.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -59,15 +60,15 @@ public class OutlookLogController {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         int github_id = authentication.getGithub_id();
         List<OutlookLog> list = outlookLogService.findAllList(github_id, outlookId);
-        // List<OutlookLog> list = outlookLogService.findListByPage(github_id, outlookId, page, pageSize);
+
         return ResultUtil.success(list);
     }
 
 
     @GetMapping("/findLogByPage")
     public Result findLogByPage(@RequestParam(required = true) int outlookId,
-                                @RequestParam(defaultValue = 1) int page,
-                                @RequestParam(defaultValue = 10) int pageSize){
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "10") int pageSize){
         if (page < 1) {
             page = 1;
         }
@@ -80,8 +81,7 @@ public class OutlookLogController {
         int github_id = authentication.getGithub_id();
         List<OutlookLog> list = outlookLogService.findListByPage(github_id, outlookId, page, pageSize);
 
-        int totalPages = outlookLogService.getTotalPages(github_id, outlookId, pageSize);
-
+        int totalPages = outlookLogService.findPagesNum(github_id, outlookId, pageSize);
         // 组装一个OutlooklogPage
         OutlookLogPage outlookLogPage = new OutlookLogPage(page, pageSize, totalPages, list);
         
