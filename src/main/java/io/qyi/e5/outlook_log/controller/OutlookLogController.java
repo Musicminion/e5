@@ -50,8 +50,8 @@ public class OutlookLogController {
     private String bucket;
 
 
-    @Value("${page.size}")
-    private int pageSize;
+    // @Value("${page.size}")
+    // private int pageSize;
 
     @GetMapping("/findLog")
     public Result findLog(@RequestParam int outlookId){
@@ -59,7 +59,33 @@ public class OutlookLogController {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         int github_id = authentication.getGithub_id();
         List<OutlookLog> list = outlookLogService.findAllList(github_id, outlookId);
+        // List<OutlookLog> list = outlookLogService.findListByPage(github_id, outlookId, page, pageSize);
         return ResultUtil.success(list);
+    }
+
+
+    @GetMapping("/findLogByPage")
+    public Result findLogByPage(@RequestParam(required = true) int outlookId,
+                                @RequestParam(defaultValue = 1) int page,
+                                @RequestParam(defaultValue = 10) int pageSize){
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (pageSize < 1 || pageSize > 200) {
+            pageSize = 10;
+        }
+
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        int github_id = authentication.getGithub_id();
+        List<OutlookLog> list = outlookLogService.findListByPage(github_id, outlookId, page, pageSize);
+
+        int totalPages = outlookLogService.getTotalPages(github_id, outlookId, pageSize);
+
+        // 组装一个OutlooklogPage
+        OutlookLogPage outlookLogPage = new OutlookLogPage(page, pageSize, totalPages, list);
+        
+        return ResultUtil.success(outlookLogPage);
     }
 
 }

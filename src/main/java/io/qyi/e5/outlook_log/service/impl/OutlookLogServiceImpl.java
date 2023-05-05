@@ -59,4 +59,49 @@ public class OutlookLogServiceImpl implements IOutlookLogService {
         List<OutlookLog> tables = queryApi.query(flux, org, OutlookLog.class);
         return tables;
     }
+
+
+    @Override
+    public List<OutlookLog> findListByPage(int githubId, int outlookId, int page, int pageSize) {
+        // 检查page参数是否合法
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (pageSize < 1 || pageSize > 100) {
+            pageSize = 10;
+        }
+
+        String flux = "from(bucket:\"" + bucket + "\") |> range(start: 0)" +
+                "|> filter(fn: (r) => r[\"_measurement\"] == \"OutlookLog\")" +
+                "|> filter(fn: (r) => r[\"githubId\"] == \"" + githubId + "\")" +
+                "|> filter(fn: (r) => r[\"outlookId\"] == \"" + outlookId + "\")" +
+                "|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")" +
+                "|> limit(n:" + pageSize + ", offset: " + (page - 1) * pageSize + ")";
+
+        QueryApi queryApi = influxDBClient.getQueryApi();
+        List<OutlookLog> tables = queryApi.query(flux, org, OutlookLog.class);
+        return tables;
+    }
+
+
+
+    // findListByPage
+    @Override
+    public int findPagesNum(int githubId, int outlookId, int pageSize){
+        // 查询githubId下、outlookId下的所有数据一共有多少条
+        String flux = "from(bucket:\"" + bucket + "\") |> range(start: 0)" +
+                "|> filter(fn: (r) => r[\"_measurement\"] == \"OutlookLog\")" +
+                "|> filter(fn: (r) => r[\"githubId\"] == \"" + githubId + "\")" +
+                "|> filter(fn: (r) => r[\"outlookId\"] == \"" + outlookId + "\")" +
+                "|> count()";
+        QueryApi queryApi = influxDBClient.getQueryApi();
+
+        List<Table> tables = queryApi.query(countFlux, org);
+        long count = (long) tables.get(0).getRecords().get(0).getValueByKey("_value");
+    
+        // 计算总页数
+        int pagesNum = (int) Math.ceil((double) count / pageSize);
+        return pagesNum;
+    }
 }

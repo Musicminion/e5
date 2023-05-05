@@ -82,3 +82,65 @@ public class Outlook implements Serializable {
     private String tenantId;
 
 }
+
+
+public class OutlookLogPage {
+    private int pageIndex;
+    private int pageSize;
+    private int pagesNum;
+    private List<OutlookLog> outlookLogList;
+
+    public OutlookLogPage() {
+    }
+    
+    public OutlookLogPage(int pageIndex, int pageSize, int pagesNum, List<OutlookLog> outlookLogList) {
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+        this.pagesNum = pagesNum;
+        this.outlookLogList = outlookLogList;
+    }
+
+    public getPageIndex() {
+        return pageIndex;
+    }
+
+    public setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
+
+    public getPageSize() {
+        return pageSize;
+    }
+
+    public setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public getPagesNum() {
+        return pagesNum;
+    }
+
+    public setPagesNum(int pagesNum) {
+        this.pagesNum = pagesNum;
+    }
+
+    public getOutlookLogList() {
+        return outlookLogList;
+    }
+
+    public setOutlookLogList(List<OutlookLog> outlookLogList) {
+        this.outlookLogList = outlookLogList;
+    }
+
+    @Override
+    public String toString() {
+        return "OutlookLogPage{" +
+                "pageIndex=" + pageIndex +
+                ", pageSize=" + pageSize +
+                ", pagesNum=" + pagesNum +
+                ", outlookLogList=" + outlookLogList +
+                '}';
+    }
+
+
+}
