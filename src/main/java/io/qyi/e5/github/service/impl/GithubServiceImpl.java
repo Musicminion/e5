@@ -28,6 +28,10 @@ import java.util.Map;
  */
 @Service
 public class GithubServiceImpl extends ServiceImpl<GithubMapper, Github> implements IGithubService {
+    @Value("${github.host:https://github.com}")
+    private String host;
+    @Value("${github.api_host:https://api.github.com}")
+    private String api_host;
     @Value("${github.client_id}")
     private String client_id;
     @Value("${github.client_secret}")
@@ -43,7 +47,7 @@ public class GithubServiceImpl extends ServiceImpl<GithubMapper, Github> impleme
         head.put("Content-Type", "application/x-www-form-urlencoded");
         String s;
         try {
-            s = OkHttpClientUtil.doPost("https://github.com/login/oauth/access_token", head, par);
+            s = OkHttpClientUtil.doPost(host + "/login/oauth/access_token", head, par);
         } catch (Exception e) {
             // e.printStackTrace();
             throw new APIException(e.getMessage());
@@ -57,7 +61,7 @@ public class GithubServiceImpl extends ServiceImpl<GithubMapper, Github> impleme
         Map<String, String> head = new HashMap<>();
         head.put("Authorization", "token " + access_token);
         head.put("Content-Type", "application/vnd.github.machine-man-preview+json");
-        String s = OkHttpClientUtil.doGet("https://api.github.com/user/emails", null,head, null);
+        String s = OkHttpClientUtil.doGet(api_host + "/user/emails", null,head, null);
         JSONArray jsonArray = JSON.parseArray(s);
         if (!jsonArray.isEmpty()) {
             for (int i = 0; i < jsonArray.size(); i++) {
@@ -77,7 +81,7 @@ public class GithubServiceImpl extends ServiceImpl<GithubMapper, Github> impleme
         head.put("Authorization", "token " + access_token);
         head.put("Content-Type", "application/vnd.github.machine-man-preview+json");
         try {
-            String s = OkHttpClientUtil.doGet("https://api.github.com/user",null, head, null);
+            String s = OkHttpClientUtil.doGet(api_host + "/user",null, head, null);
             JSONObject jsonObject = JSON.parseObject(s);
             UserInfo userInfo = new UserInfo();
             if (!jsonObject.isEmpty()) {
